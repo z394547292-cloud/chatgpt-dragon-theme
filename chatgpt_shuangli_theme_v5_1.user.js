@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.0
-// @description  网页版霜璃完整主题 V5.1：在 V5.0 高清五状态基础上强化任务入口与任务页可视性，信息优先。
+// @version      5.1.1
+// @description  网页版霜璃完整主题 V5.1.1：右侧高清霜璃大立绘全页面常驻显示，保留五状态换图、任务入口与场景特效。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -1867,8 +1867,34 @@
   }
 
   html[data-sl-task-page="1"] #${HERO_ID}{
-    opacity:.10!important;
-    filter:saturate(.75) brightness(1.02)!important;
+    opacity:.24!important;
+    filter:saturate(.90) brightness(1.02) drop-shadow(0 0 26px rgba(198,228,246,.12))!important;
+  }
+
+  /* V5.1.1: keep the large Shuangli portrait permanently visible */
+  html #${HERO_ID}{
+    display:block!important;
+    visibility:visible!important;
+  }
+
+  html[data-sl-task-page="0"][data-sl-scene="chat"] #${HERO_ID}{
+    opacity:.19!important;
+  }
+
+  html[data-sl-task-page="0"][data-sl-scene="home"] #${HERO_ID}{
+    opacity:.30!important;
+  }
+
+  html[data-sl-task-page="0"][data-sl-scene="thinking"] #${HERO_ID}{
+    opacity:.27!important;
+  }
+
+  html[data-sl-task-page="0"][data-sl-scene="generating"] #${HERO_ID}{
+    opacity:.30!important;
+  }
+
+  html[data-sl-task-page="0"][data-sl-scene="done"] #${HERO_ID}{
+    opacity:.25!important;
   }
 
   html[data-sl-task-page="1"] #${SCENE_ID},
@@ -2417,7 +2443,8 @@
       const hi=hero.querySelector('img');
       if(imgData){
         hi.src=imgData;
-        hero.style.display=get(KEY_BG,'1')==='0'?'none':'block';
+        hero.style.display='block';
+        hero.style.visibility='visible';
       }else{
         hi.removeAttribute('src');
         hero.style.display='none';
@@ -2666,7 +2693,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1：保留五张高清状态图，并强化左侧任务入口与任务页可视性。</p>
+      <p>V5.1.1：右侧霜璃大立绘改为全页面常驻显示；五状态换图、任务入口和场景特效继续保留。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2900,5 +2927,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1 loaded · task visibility enhanced');
+  console.log('[霜璃主题] V5.1.1 loaded · hero always visible');
 })();
