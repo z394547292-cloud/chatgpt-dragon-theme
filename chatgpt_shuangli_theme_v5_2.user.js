@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.2
 // @namespace    https://chatgpt.com/
-// @version      5.2.0
-// @description  网页版霜璃完整主题 V5.2：重建前景角色定位层，使用新样式ID与独立定位容器，彻底绕开V5.1缓存与旧CSS覆盖。
+// @version      5.2.1
+// @description  网页版霜璃完整主题 V5.2.1：在V5.2稳定居中的基础上，将右侧霜璃略微右移，减少对聊天区域遮挡。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -425,7 +425,7 @@
   /* V4.3 page-integrated Shuangli portrait */
   #${HERO_ID}{
     position:fixed!important;
-    right:24px!important;
+    right:-18px!important;
     top:50vh!important;
     bottom:auto!important;
     left:auto!important;
@@ -2808,7 +2808,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.2：前景角色定位层已重建，使用独立新ID并锁定在屏幕垂直中心，避免旧缓存覆盖。</p>
+      <p>V5.2.1：右侧霜璃在保持垂直居中的基础上略微右移，减少对聊天区域的遮挡。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2897,7 +2897,7 @@
     position:fixed!important;
     top:50vh!important;
     bottom:auto!important;
-    right:24px!important;
+    right:-18px!important;
     left:auto!important;
     width:min(32vw,540px)!important;
     height:min(76vh,780px)!important;
@@ -2927,7 +2927,7 @@
     html[data-sl-state] body #${HERO_ID},
     html[data-sl-task-page] body #${HERO_ID}{
       top:50vh!important;
-      right:8px!important;
+      right:-6px!important;
       width:min(54vw,420px)!important;
       height:min(72vh,680px)!important;
       transform:translate3d(0,-50%,0)!important;
@@ -3088,5 +3088,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.2 loaded · rebuilt centered hero layer');
+  console.log('[霜璃主题] V5.2.1 loaded · hero shifted right');
 })();
