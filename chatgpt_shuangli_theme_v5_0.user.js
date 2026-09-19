@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.0
 // @namespace    https://chatgpt.com/
-// @version      5.0.0
-// @description  网页版霜璃完整主题 V5.0：首页/待机/思考/输出/完成五状态独立角色图，延续场景、电影感与状态特效。
+// @version      5.0.1
+// @description  网页版霜璃完整主题 V5.0：内置高清首页/待机/思考/输出/完成五状态角色图，延续场景、电影感与状态特效。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -53,6 +53,14 @@
   const KEY_STATE_GEN_IMG = 'sl48_gen_img';
   const KEY_STATE_DONE_IMG = 'sl48_done_img';
   const KEY_STATE_IMAGES = 'sl48_state_images';
+
+  const BUILTIN_STATE_IMAGES = {
+    home: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/home.webp',
+    idle: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/idle.webp',
+    thinking: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/thinking.webp',
+    generating: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/generating.webp',
+    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/done.webp'
+  };
 
   const lines = [
     '嗯，在这呢。',
@@ -2297,8 +2305,21 @@
   }
 
   function getStateImage(state){
-    if(get(KEY_STATE_IMAGES,'1')==='0') return localStorage.getItem(KEY_IMG);
-    return localStorage.getItem(stateImageKey(state)) || localStorage.getItem(KEY_IMG);
+    if(get(KEY_STATE_IMAGES,'1')==='0'){
+      return localStorage.getItem(KEY_IMG) || BUILTIN_STATE_IMAGES.idle;
+    }
+    return localStorage.getItem(stateImageKey(state))
+      || BUILTIN_STATE_IMAGES[state]
+      || localStorage.getItem(KEY_IMG)
+      || BUILTIN_STATE_IMAGES.idle;
+  }
+
+  function preloadBuiltinStateImages(){
+    Object.values(BUILTIN_STATE_IMAGES).forEach(src=>{
+      const img=new Image();
+      img.decoding='async';
+      img.src=src;
+    });
   }
 
   function syncStateImage(){
@@ -2382,7 +2403,8 @@
       'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:#4e4858;';
 
     const row=(state,label)=>{
-      const data=localStorage.getItem(stateImageKey(state));
+      const custom=localStorage.getItem(stateImageKey(state));
+      const data=custom || BUILTIN_STATE_IMAGES[state] || BUILTIN_STATE_IMAGES.idle;
       const preview=data
         ? '<img class="sl50-preview" src="'+data+'" alt="">'
         : '<span class="sl50-preview empty">❄</span>';
@@ -2394,7 +2416,7 @@
 
     m.innerHTML=
       '<h3 style="margin:0 0 5px">❄ 霜璃五状态图片</h3>'+
-      '<p style="margin:0 0 14px;color:#777184;font-size:12px;line-height:1.6">首页、待机、思考、输出、完成都可以使用独立图片；没有设置的状态自动回退到主图。</p>'+
+      '<p style="margin:0 0 14px;color:#777184;font-size:12px;line-height:1.6">已内置 5 张高清霜璃状态图；你仍然可以导入自己的图片覆盖任意状态，清除后自动恢复内置高清图。</p>'+
       row('home','首页')+
       row('idle','待机')+
       row('thinking','思考')+
@@ -2518,9 +2540,9 @@
     m.querySelectorAll('[data-status-for]').forEach(el=>{
       const st=el.dataset.statusFor;
       const exists=!!localStorage.getItem(stateImageKey(st));
-      el.textContent=exists?'已设置':'使用主图';
-      el.style.color=exists?'#675b85':'#8a8392';
-      el.style.background=exists?'rgba(234,226,247,.72)':'rgba(238,240,246,.66)';
+      el.textContent=exists?'自定义':'内置高清';
+      el.style.color=exists?'#675b85':'#617185';
+      el.style.background=exists?'rgba(234,226,247,.72)':'rgba(225,239,248,.72)';
     });
   }
 
@@ -2550,7 +2572,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.0：首页、待机、思考、输出、完成五状态独立角色图；延续电影感场景与状态特效。</p>
+      <p>V5.0.1：已内置首页、待机、思考、输出、完成五张高清霜璃图；仍支持自定义覆盖。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2730,8 +2752,11 @@
     addStatePanel();
     addReactiveFx();
     applyPrefs();
+    preloadBuiltinStateImages();
     syncHeroImage();
+    syncStateImage();
     detectState();
+    detectScene();
 
     if(!window.__SHUANGLI_V42_KEYS__){
       window.__SHUANGLI_V42_KEYS__=true;
@@ -2778,5 +2803,5 @@
     detectScene();
   },700);
 
-  console.log('[霜璃主题] V5.0 loaded');
+  console.log('[霜璃主题] V5.0.1 loaded · built-in HD state images');
 })();
