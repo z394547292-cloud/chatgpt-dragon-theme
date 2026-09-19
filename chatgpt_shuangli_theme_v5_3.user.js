@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.3
 // @namespace    https://chatgpt.com/
-// @version      5.3.0
-// @description  网页版霜璃完整主题 V5.3：在V5.2.1稳定人物位置基础上加入点击回应、靠近互动、状态提示气泡与轻微动作反馈。
+// @version      5.3.1
+// @description  网页版霜璃完整主题 V5.3.1：修复完成状态白框，完成图改为透明背景，并保留V5.3全部互动功能。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -63,7 +63,7 @@
     idle: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/idle.webp',
     thinking: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/thinking.webp',
     generating: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/generating.webp',
-    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/done.webp'
+    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/done.webp?v=531'
   };
 
   const lines = [
@@ -2977,7 +2977,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.3：新增角色点击回应、靠近反馈、状态提示气泡；人物位置沿用V5.2.1稳定布局。</p>
+      <p>V5.3.1：修复完成状态白框，完成图改为透明背景；点击回应和状态气泡继续保留。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -3283,5 +3283,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.3 loaded · interactive Shuangli');
+  console.log('[霜璃主题] V5.3.1 loaded · transparent done state');
 })();
