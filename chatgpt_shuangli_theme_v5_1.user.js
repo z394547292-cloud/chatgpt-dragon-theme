@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.4
-// @description  网页版霜璃完整主题 V5.1.4：右侧霜璃改为独立前景角色层，取消水印感与背景融合，像桌宠一样清晰常驻。
+// @version      5.1.5
+// @description  网页版霜璃完整主题 V5.1.5：右侧霜璃独立前景层改为垂直居中常驻，保持五状态高清换图与特效。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -426,12 +426,15 @@
   #${HERO_ID}{
     position:fixed;
     right:1.2vw;
-    bottom:0;
+    top:50%;
+    bottom:auto;
     z-index:2147480500;
     width:min(33vw,560px);
-    height:min(78vh,820px);
+    height:min(82vh,860px);
     pointer-events:none;
     opacity:1;
+    transform:translateY(-50%);
+    transform-origin:center center;
     mix-blend-mode:normal!important;
     filter:
       saturate(1.04)
@@ -439,7 +442,7 @@
       brightness(1.01)
       drop-shadow(0 14px 30px rgba(82,69,112,.22))
       drop-shadow(0 0 16px rgba(201,231,248,.18));
-    transition:filter .35s ease,transform .35s ease,right .25s ease,bottom .25s ease;
+    transition:filter .35s ease,transform .35s ease,right .25s ease,top .25s ease;
     -webkit-mask-image:none!important;
     mask-image:none!important;
     isolation:isolate;
@@ -1898,17 +1901,17 @@
 
   html[data-sl-task-page="0"][data-sl-scene="chat"] #${HERO_ID}{
     opacity:1!important;
-    transform:scale(.98);
+    transform:translateY(-50%) scale(.98);
   }
 
   html[data-sl-task-page="0"][data-sl-scene="home"] #${HERO_ID}{
     opacity:1!important;
-    transform:scale(1.04);
+    transform:translateY(-50%) scale(1.04);
   }
 
   html[data-sl-task-page="0"][data-sl-scene="thinking"] #${HERO_ID}{
     opacity:1!important;
-    transform:translate3d(-6px,-4px,0) scale(1.02);
+    transform:translate3d(-6px,calc(-50% - 4px),0) scale(1.02);
     filter:
       saturate(1.08)
       contrast(1.08)
@@ -1919,7 +1922,7 @@
 
   html[data-sl-task-page="0"][data-sl-scene="generating"] #${HERO_ID}{
     opacity:1!important;
-    transform:translate3d(-8px,-2px,0) scale(1.03);
+    transform:translate3d(-8px,calc(-50% - 2px),0) scale(1.03);
     filter:
       saturate(1.10)
       contrast(1.09)
@@ -1930,7 +1933,7 @@
 
   html[data-sl-task-page="0"][data-sl-scene="done"] #${HERO_ID}{
     opacity:1!important;
-    transform:scale(1.01);
+    transform:translateY(-50%) scale(1.01);
     filter:
       saturate(1.06)
       contrast(1.07)
@@ -2735,7 +2738,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.4：右侧霜璃已改为独立前景角色层，取消水印与背景融合，像桌宠一样清晰常驻。</p>
+      <p>V5.1.5：右侧霜璃保持独立前景角色层，并改为屏幕垂直居中常驻。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2969,5 +2972,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.4 loaded · foreground character layer');
+  console.log('[霜璃主题] V5.1.5 loaded · vertically centered foreground hero');
 })();
