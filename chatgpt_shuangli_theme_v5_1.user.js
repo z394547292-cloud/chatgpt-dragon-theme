@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.1
-// @description  网页版霜璃完整主题 V5.1.1：右侧高清霜璃大立绘全页面常驻显示，保留五状态换图、任务入口与场景特效。
+// @version      5.1.2
+// @description  网页版霜璃完整主题 V5.1.2：右侧高清霜璃大立绘明显加深，全页面常驻显示，保留五状态换图与场景特效。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -1867,34 +1867,39 @@
   }
 
   html[data-sl-task-page="1"] #${HERO_ID}{
-    opacity:.24!important;
-    filter:saturate(.90) brightness(1.02) drop-shadow(0 0 26px rgba(198,228,246,.12))!important;
+    opacity:.46!important;
+    filter:saturate(1.02) contrast(1.08) brightness(.99) drop-shadow(0 8px 28px rgba(118,98,154,.18))!important;
   }
 
-  /* V5.1.1: keep the large Shuangli portrait permanently visible */
+  /* V5.1.2: keep the large Shuangli portrait permanently visible and noticeably stronger */
   html #${HERO_ID}{
     display:block!important;
     visibility:visible!important;
+    opacity:.42!important;
+    filter:saturate(1.00) contrast(1.07) brightness(.99) drop-shadow(0 8px 26px rgba(120,101,154,.16))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="chat"] #${HERO_ID}{
-    opacity:.19!important;
+    opacity:.40!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="home"] #${HERO_ID}{
-    opacity:.30!important;
+    opacity:.52!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="thinking"] #${HERO_ID}{
-    opacity:.27!important;
+    opacity:.48!important;
+    filter:saturate(1.04) contrast(1.08) brightness(1.00) drop-shadow(0 0 34px rgba(190,225,246,.24))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="generating"] #${HERO_ID}{
-    opacity:.30!important;
+    opacity:.52!important;
+    filter:saturate(1.08) contrast(1.09) brightness(.99) drop-shadow(0 0 38px rgba(177,156,221,.24))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="done"] #${HERO_ID}{
-    opacity:.25!important;
+    opacity:.46!important;
+    filter:saturate(1.02) contrast(1.08) brightness(1.02) drop-shadow(0 0 28px rgba(199,228,245,.20))!important;
   }
 
   html[data-sl-task-page="1"] #${SCENE_ID},
@@ -2693,7 +2698,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.1：右侧霜璃大立绘改为全页面常驻显示；五状态换图、任务入口和场景特效继续保留。</p>
+      <p>V5.1.2：右侧霜璃大立绘明显加深，并保持全页面常驻；五状态换图与场景特效继续保留。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2927,5 +2932,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.1 loaded · hero always visible');
+  console.log('[霜璃主题] V5.1.2 loaded · hero stronger and always visible');
 })();
