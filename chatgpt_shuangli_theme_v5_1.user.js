@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.7
-// @description  网页版霜璃完整主题 V5.1.7：修正右侧霜璃立绘垂直位置，图片与容器均居中并整体轻微上提。
+// @version      5.1.8
+// @description  网页版霜璃完整主题 V5.1.8：修复旧漂浮动画覆盖居中定位的问题，锁定右侧霜璃前景立绘垂直居中。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -2008,6 +2008,72 @@
     #${PANEL_ID}{width:216px;height:338px;right:10px;bottom:10px}
     #${TOGGLE_ID}{right:10px;bottom:10px}
   }
+
+
+  /* V5.1.8 FINAL HERO POSITION LOCK
+     Old float/breath animations changed transform and pushed the character downward.
+     Keep state visuals, but lock the foreground portrait position here. */
+  html #${HERO_ID}{
+    top:50%!important;
+    bottom:auto!important;
+    right:1.2vw!important;
+    animation:none!important;
+    transform:translate3d(0,-50%,0)!important;
+    transform-origin:center center!important;
+  }
+
+  html[data-sl-scene="home"] #${HERO_ID}{
+    top:50%!important;
+    bottom:auto!important;
+    right:1.2vw!important;
+    animation:none!important;
+    transform:translate3d(0,-50%,0) scale(1)!important;
+  }
+
+  html[data-sl-scene="chat"] #${HERO_ID}{
+    top:50%!important;
+    bottom:auto!important;
+    right:1.2vw!important;
+    animation:none!important;
+    transform:translate3d(0,-50%,0) scale(1)!important;
+  }
+
+  html[data-sl-scene="thinking"] #${HERO_ID}{
+    top:50%!important;
+    bottom:auto!important;
+    right:1.2vw!important;
+    animation:none!important;
+    transform:translate3d(-4px,calc(-50% - 3px),0) scale(1.008)!important;
+  }
+
+  html[data-sl-scene="generating"] #${HERO_ID}{
+    top:50%!important;
+    bottom:auto!important;
+    right:1.2vw!important;
+    animation:none!important;
+    transform:translate3d(-5px,calc(-50% - 2px),0) scale(1.01)!important;
+  }
+
+  html[data-sl-scene="done"] #${HERO_ID}{
+    top:50%!important;
+    bottom:auto!important;
+    right:1.2vw!important;
+    animation:none!important;
+    transform:translate3d(0,-50%,0) scale(1)!important;
+  }
+
+  @media(max-width:900px){
+    html #${HERO_ID},
+    html[data-sl-scene="home"] #${HERO_ID},
+    html[data-sl-scene="chat"] #${HERO_ID},
+    html[data-sl-scene="thinking"] #${HERO_ID},
+    html[data-sl-scene="generating"] #${HERO_ID},
+    html[data-sl-scene="done"] #${HERO_ID}{
+      top:48%!important;
+      bottom:auto!important;
+    }
+  }
+
   `;
 
   function addStyle(){
@@ -2743,7 +2809,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.7：修正右侧霜璃位置，角色图片与容器均垂直居中，并整体轻微上提。</p>
+      <p>V5.1.8：已修复旧漂浮动画覆盖定位的问题，右侧霜璃前景立绘现在锁定垂直居中。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2977,5 +3043,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.7 loaded · centered hero image');
+  console.log('[霜璃主题] V5.1.8 loaded · hero position locked');
 })();
