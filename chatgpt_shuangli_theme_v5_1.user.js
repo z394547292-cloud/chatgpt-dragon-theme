@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.2
-// @description  网页版霜璃完整主题 V5.1.2：右侧高清霜璃大立绘明显加深，全页面常驻显示，保留五状态换图与场景特效。
+// @version      5.1.3
+// @description  网页版霜璃完整主题 V5.1.3：右侧高清霜璃大立绘切换为清晰立绘常驻模式，显著增强角色存在感。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -434,9 +434,9 @@
     opacity:.18;
     filter:saturate(.88) contrast(.98);
     transition:opacity .35s ease,filter .35s ease,transform .35s ease;
-    -webkit-mask-image:linear-gradient(to left,black 46%,rgba(0,0,0,.74) 68%,transparent 100%),
-                       linear-gradient(to top,black 62%,transparent 100%);
-    mask-image:linear-gradient(to left,black 46%,rgba(0,0,0,.74) 68%,transparent 100%);
+    -webkit-mask-image:linear-gradient(to left,black 62%,rgba(0,0,0,.88) 82%,transparent 100%),
+                       linear-gradient(to top,black 78%,transparent 100%);
+    mask-image:linear-gradient(to left,black 62%,rgba(0,0,0,.88) 82%,transparent 100%);
   }
   #${HERO_ID} img{
     width:100%;height:100%;
@@ -1867,39 +1867,49 @@
   }
 
   html[data-sl-task-page="1"] #${HERO_ID}{
-    opacity:.46!important;
-    filter:saturate(1.02) contrast(1.08) brightness(.99) drop-shadow(0 8px 28px rgba(118,98,154,.18))!important;
+    opacity:.72!important;
+    filter:saturate(1.10) contrast(1.14) brightness(1.00)
+      drop-shadow(0 10px 34px rgba(118,98,154,.26))
+      drop-shadow(0 0 24px rgba(198,228,246,.18))!important;
   }
 
-  /* V5.1.2: keep the large Shuangli portrait permanently visible and noticeably stronger */
+  /* V5.1.3: clear portrait mode - hero fully stands out */
   html #${HERO_ID}{
     display:block!important;
     visibility:visible!important;
-    opacity:.42!important;
-    filter:saturate(1.00) contrast(1.07) brightness(.99) drop-shadow(0 8px 26px rgba(120,101,154,.16))!important;
+    opacity:.70!important;
+    filter:saturate(1.08) contrast(1.13) brightness(1.00)
+      drop-shadow(0 10px 32px rgba(120,101,154,.24))
+      drop-shadow(0 0 22px rgba(194,226,245,.16))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="chat"] #${HERO_ID}{
-    opacity:.40!important;
+    opacity:.68!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="home"] #${HERO_ID}{
-    opacity:.52!important;
+    opacity:.78!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="thinking"] #${HERO_ID}{
-    opacity:.48!important;
-    filter:saturate(1.04) contrast(1.08) brightness(1.00) drop-shadow(0 0 34px rgba(190,225,246,.24))!important;
+    opacity:.75!important;
+    filter:saturate(1.12) contrast(1.14) brightness(1.01)
+      drop-shadow(0 0 40px rgba(190,225,246,.30))
+      drop-shadow(0 10px 36px rgba(120,101,154,.22))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="generating"] #${HERO_ID}{
-    opacity:.52!important;
-    filter:saturate(1.08) contrast(1.09) brightness(.99) drop-shadow(0 0 38px rgba(177,156,221,.24))!important;
+    opacity:.78!important;
+    filter:saturate(1.16) contrast(1.15) brightness(1.00)
+      drop-shadow(0 0 44px rgba(177,156,221,.30))
+      drop-shadow(0 10px 38px rgba(120,101,154,.24))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="done"] #${HERO_ID}{
-    opacity:.46!important;
-    filter:saturate(1.02) contrast(1.08) brightness(1.02) drop-shadow(0 0 28px rgba(199,228,245,.20))!important;
+    opacity:.74!important;
+    filter:saturate(1.10) contrast(1.14) brightness(1.03)
+      drop-shadow(0 0 32px rgba(199,228,245,.24))
+      drop-shadow(0 10px 34px rgba(120,101,154,.22))!important;
   }
 
   html[data-sl-task-page="1"] #${SCENE_ID},
@@ -2698,7 +2708,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.2：右侧霜璃大立绘明显加深，并保持全页面常驻；五状态换图与场景特效继续保留。</p>
+      <p>V5.1.3：右侧霜璃已切换为清晰立绘常驻模式，明显增强角色存在感；五状态换图与场景特效继续保留。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2932,5 +2942,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.2 loaded · hero stronger and always visible');
+  console.log('[霜璃主题] V5.1.3 loaded · clear portrait mode');
 })();
