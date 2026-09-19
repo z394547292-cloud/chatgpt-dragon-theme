@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.5
-// @description  网页版霜璃完整主题 V5.1.5：右侧霜璃独立前景层改为垂直居中常驻，保持五状态高清换图与特效。
+// @version      5.1.6
+// @description  网页版霜璃完整主题 V5.1.6：优化右侧霜璃立绘清晰度，减少缩放插值与柔光模糊，强化线条和细节。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -429,7 +429,7 @@
     top:50%;
     bottom:auto;
     z-index:2147480500;
-    width:min(33vw,560px);
+    width:min(34vw,580px);
     height:min(82vh,860px);
     pointer-events:none;
     opacity:1;
@@ -437,12 +437,14 @@
     transform-origin:center center;
     mix-blend-mode:normal!important;
     filter:
-      saturate(1.04)
-      contrast(1.06)
-      brightness(1.01)
-      drop-shadow(0 14px 30px rgba(82,69,112,.22))
-      drop-shadow(0 0 16px rgba(201,231,248,.18));
-    transition:filter .35s ease,transform .35s ease,right .25s ease,top .25s ease;
+      saturate(1.08)
+      contrast(1.12)
+      brightness(1.005)
+      drop-shadow(0 10px 18px rgba(82,69,112,.20))
+      drop-shadow(0 0 7px rgba(201,231,248,.12));
+    transition:filter .24s ease,transform .24s ease,right .25s ease,top .25s ease;
+    backface-visibility:hidden;
+    -webkit-font-smoothing:antialiased;
     -webkit-mask-image:none!important;
     mask-image:none!important;
     isolation:isolate;
@@ -455,6 +457,9 @@
     opacity:1!important;
     mix-blend-mode:normal!important;
     image-rendering:auto;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    filter:contrast(1.03) saturate(1.025);
   }
   html.sl43-no-bg #${HERO_ID}{display:none!important}
   html[data-sl-state="thinking"] #${HERO_ID}{
@@ -1882,11 +1887,11 @@
     opacity:1!important;
     right:1.2vw!important;
     filter:
-      saturate(1.05)
-      contrast(1.07)
-      brightness(1.01)
-      drop-shadow(0 14px 30px rgba(82,69,112,.22))
-      drop-shadow(0 0 16px rgba(201,231,248,.18))!important;
+      saturate(1.10)
+      contrast(1.14)
+      brightness(1.005)
+      drop-shadow(0 10px 18px rgba(82,69,112,.20))
+      drop-shadow(0 0 7px rgba(201,231,248,.12))!important;
   }
 
   /* V5.1.4: independent foreground character layer */
@@ -1901,45 +1906,45 @@
 
   html[data-sl-task-page="0"][data-sl-scene="chat"] #${HERO_ID}{
     opacity:1!important;
-    transform:translateY(-50%) scale(.98);
+    transform:translateY(-50%) scale(1);
   }
 
   html[data-sl-task-page="0"][data-sl-scene="home"] #${HERO_ID}{
     opacity:1!important;
-    transform:translateY(-50%) scale(1.04);
+    transform:translateY(-50%) scale(1);
   }
 
   html[data-sl-task-page="0"][data-sl-scene="thinking"] #${HERO_ID}{
     opacity:1!important;
-    transform:translate3d(-6px,calc(-50% - 4px),0) scale(1.02);
+    transform:translate3d(-4px,calc(-50% - 3px),0) scale(1.008);
     filter:
-      saturate(1.08)
-      contrast(1.08)
-      brightness(1.02)
-      drop-shadow(0 0 26px rgba(190,225,246,.28))
-      drop-shadow(0 14px 30px rgba(82,69,112,.22))!important;
+      saturate(1.12)
+      contrast(1.15)
+      brightness(1.01)
+      drop-shadow(0 0 10px rgba(190,225,246,.18))
+      drop-shadow(0 10px 18px rgba(82,69,112,.20))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="generating"] #${HERO_ID}{
     opacity:1!important;
-    transform:translate3d(-8px,calc(-50% - 2px),0) scale(1.03);
+    transform:translate3d(-5px,calc(-50% - 2px),0) scale(1.01);
     filter:
-      saturate(1.10)
-      contrast(1.09)
-      brightness(1.01)
-      drop-shadow(0 0 30px rgba(177,156,221,.28))
-      drop-shadow(0 14px 32px rgba(82,69,112,.23))!important;
+      saturate(1.14)
+      contrast(1.16)
+      brightness(1.005)
+      drop-shadow(0 0 11px rgba(177,156,221,.18))
+      drop-shadow(0 10px 19px rgba(82,69,112,.21))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="done"] #${HERO_ID}{
     opacity:1!important;
-    transform:translateY(-50%) scale(1.01);
+    transform:translateY(-50%) scale(1);
     filter:
-      saturate(1.06)
-      contrast(1.07)
-      brightness(1.03)
-      drop-shadow(0 0 22px rgba(199,228,245,.22))
-      drop-shadow(0 14px 30px rgba(82,69,112,.21))!important;
+      saturate(1.10)
+      contrast(1.14)
+      brightness(1.015)
+      drop-shadow(0 0 9px rgba(199,228,245,.16))
+      drop-shadow(0 10px 18px rgba(82,69,112,.19))!important;
   }
 
   html[data-sl-task-page="1"] #${SCENE_ID},
@@ -2738,7 +2743,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.5：右侧霜璃保持独立前景角色层，并改为屏幕垂直居中常驻。</p>
+      <p>V5.1.6：右侧霜璃进一步优化清晰度，减少缩放插值与柔光模糊，强化线条和细节。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2972,5 +2977,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.5 loaded · vertically centered foreground hero');
+  console.log('[霜璃主题] V5.1.6 loaded · sharper foreground hero');
 })();
