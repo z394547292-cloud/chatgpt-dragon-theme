@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.3
-// @description  网页版霜璃完整主题 V5.1.3：右侧高清霜璃大立绘切换为清晰立绘常驻模式，显著增强角色存在感。
+// @version      5.1.4
+// @description  网页版霜璃完整主题 V5.1.4：右侧霜璃改为独立前景角色层，取消水印感与背景融合，像桌宠一样清晰常驻。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -425,24 +425,33 @@
   /* V4.3 page-integrated Shuangli portrait */
   #${HERO_ID}{
     position:fixed;
-    right:-2vw;
-    bottom:-3vh;
-    z-index:0;
-    width:min(38vw,620px);
-    height:min(82vh,860px);
+    right:1.2vw;
+    bottom:0;
+    z-index:2147480500;
+    width:min(33vw,560px);
+    height:min(78vh,820px);
     pointer-events:none;
-    opacity:.18;
-    filter:saturate(.88) contrast(.98);
-    transition:opacity .35s ease,filter .35s ease,transform .35s ease;
-    -webkit-mask-image:linear-gradient(to left,black 62%,rgba(0,0,0,.88) 82%,transparent 100%),
-                       linear-gradient(to top,black 78%,transparent 100%);
-    mask-image:linear-gradient(to left,black 62%,rgba(0,0,0,.88) 82%,transparent 100%);
+    opacity:1;
+    mix-blend-mode:normal!important;
+    filter:
+      saturate(1.04)
+      contrast(1.06)
+      brightness(1.01)
+      drop-shadow(0 14px 30px rgba(82,69,112,.22))
+      drop-shadow(0 0 16px rgba(201,231,248,.18));
+    transition:filter .35s ease,transform .35s ease,right .25s ease,bottom .25s ease;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+    isolation:isolate;
   }
   #${HERO_ID} img{
     width:100%;height:100%;
     object-fit:contain;
     object-position:right bottom;
     display:block;
+    opacity:1!important;
+    mix-blend-mode:normal!important;
+    image-rendering:auto;
   }
   html.sl43-no-bg #${HERO_ID}{display:none!important}
   html[data-sl-state="thinking"] #${HERO_ID}{
@@ -1867,49 +1876,67 @@
   }
 
   html[data-sl-task-page="1"] #${HERO_ID}{
-    opacity:.72!important;
-    filter:saturate(1.10) contrast(1.14) brightness(1.00)
-      drop-shadow(0 10px 34px rgba(118,98,154,.26))
-      drop-shadow(0 0 24px rgba(198,228,246,.18))!important;
+    opacity:1!important;
+    right:1.2vw!important;
+    filter:
+      saturate(1.05)
+      contrast(1.07)
+      brightness(1.01)
+      drop-shadow(0 14px 30px rgba(82,69,112,.22))
+      drop-shadow(0 0 16px rgba(201,231,248,.18))!important;
   }
 
-  /* V5.1.3: clear portrait mode - hero fully stands out */
+  /* V5.1.4: independent foreground character layer */
   html #${HERO_ID}{
     display:block!important;
     visibility:visible!important;
-    opacity:.70!important;
-    filter:saturate(1.08) contrast(1.13) brightness(1.00)
-      drop-shadow(0 10px 32px rgba(120,101,154,.24))
-      drop-shadow(0 0 22px rgba(194,226,245,.16))!important;
+    opacity:1!important;
+    mix-blend-mode:normal!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="chat"] #${HERO_ID}{
-    opacity:.68!important;
+    opacity:1!important;
+    transform:scale(.98);
   }
 
   html[data-sl-task-page="0"][data-sl-scene="home"] #${HERO_ID}{
-    opacity:.78!important;
+    opacity:1!important;
+    transform:scale(1.04);
   }
 
   html[data-sl-task-page="0"][data-sl-scene="thinking"] #${HERO_ID}{
-    opacity:.75!important;
-    filter:saturate(1.12) contrast(1.14) brightness(1.01)
-      drop-shadow(0 0 40px rgba(190,225,246,.30))
-      drop-shadow(0 10px 36px rgba(120,101,154,.22))!important;
+    opacity:1!important;
+    transform:translate3d(-6px,-4px,0) scale(1.02);
+    filter:
+      saturate(1.08)
+      contrast(1.08)
+      brightness(1.02)
+      drop-shadow(0 0 26px rgba(190,225,246,.28))
+      drop-shadow(0 14px 30px rgba(82,69,112,.22))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="generating"] #${HERO_ID}{
-    opacity:.78!important;
-    filter:saturate(1.16) contrast(1.15) brightness(1.00)
-      drop-shadow(0 0 44px rgba(177,156,221,.30))
-      drop-shadow(0 10px 38px rgba(120,101,154,.24))!important;
+    opacity:1!important;
+    transform:translate3d(-8px,-2px,0) scale(1.03);
+    filter:
+      saturate(1.10)
+      contrast(1.09)
+      brightness(1.01)
+      drop-shadow(0 0 30px rgba(177,156,221,.28))
+      drop-shadow(0 14px 32px rgba(82,69,112,.23))!important;
   }
 
   html[data-sl-task-page="0"][data-sl-scene="done"] #${HERO_ID}{
-    opacity:.74!important;
-    filter:saturate(1.10) contrast(1.14) brightness(1.03)
-      drop-shadow(0 0 32px rgba(199,228,245,.24))
-      drop-shadow(0 10px 34px rgba(120,101,154,.22))!important;
+    opacity:1!important;
+    transform:scale(1.01);
+    filter:
+      saturate(1.06)
+      contrast(1.07)
+      brightness(1.03)
+      drop-shadow(0 0 22px rgba(199,228,245,.22))
+      drop-shadow(0 14px 30px rgba(82,69,112,.21))!important;
   }
 
   html[data-sl-task-page="1"] #${SCENE_ID},
@@ -2708,7 +2735,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.3：右侧霜璃已切换为清晰立绘常驻模式，明显增强角色存在感；五状态换图与场景特效继续保留。</p>
+      <p>V5.1.4：右侧霜璃已改为独立前景角色层，取消水印与背景融合，像桌宠一样清晰常驻。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2942,5 +2969,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.3 loaded · clear portrait mode');
+  console.log('[霜璃主题] V5.1.4 loaded · foreground character layer');
 })();
