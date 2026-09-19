@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 完整冰晶龙娘主题 V5.1
 // @namespace    https://chatgpt.com/
-// @version      5.1.6
-// @description  网页版霜璃完整主题 V5.1.6：优化右侧霜璃立绘清晰度，减少缩放插值与柔光模糊，强化线条和细节。
+// @version      5.1.7
+// @description  网页版霜璃完整主题 V5.1.7：修正右侧霜璃立绘垂直位置，图片与容器均居中并整体轻微上提。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -426,7 +426,7 @@
   #${HERO_ID}{
     position:fixed;
     right:1.2vw;
-    top:50%;
+    top:47%;
     bottom:auto;
     z-index:2147480500;
     width:min(34vw,580px);
@@ -452,7 +452,7 @@
   #${HERO_ID} img{
     width:100%;height:100%;
     object-fit:contain;
-    object-position:right bottom;
+    object-position:right center;
     display:block;
     opacity:1!important;
     mix-blend-mode:normal!important;
@@ -2743,7 +2743,7 @@
     box.id=SETTINGS_ID;
     box.innerHTML=`
       <h3>❄ 霜璃主题设置</h3>
-      <p>V5.1.6：右侧霜璃进一步优化清晰度，减少缩放插值与柔光模糊，强化线条和细节。</p>
+      <p>V5.1.7：修正右侧霜璃位置，角色图片与容器均垂直居中，并整体轻微上提。</p>
 
       <div class="row">
         <span>动态特效</span>
@@ -2977,5 +2977,5 @@
     detectTaskPage();
   },700);
 
-  console.log('[霜璃主题] V5.1.6 loaded · sharper foreground hero');
+  console.log('[霜璃主题] V5.1.7 loaded · centered hero image');
 })();
