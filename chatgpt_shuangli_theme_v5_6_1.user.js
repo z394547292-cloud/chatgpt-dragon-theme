@@ -2883,6 +2883,31 @@
         margin-top:26px!important;
       }
 
+      /* Clean Chat / Work switcher: remove overlapping white backing */
+      .sl56-mode-tabs{
+        background:transparent!important;
+        background-image:none!important;
+        border:none!important;
+        box-shadow:none!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
+        padding:0!important;
+        gap:8px!important;
+      }
+
+      .sl56-mode-tabs::before,
+      .sl56-mode-tabs::after{
+        display:none!important;
+      }
+
+      .sl56-mode-tab{
+        margin:0!important;
+        border-radius:14px!important;
+        background:rgba(250,251,255,.86)!important;
+        border:1px solid rgba(135,124,165,.13)!important;
+        box-shadow:0 5px 14px rgba(70,64,90,.055)!important;
+      }
+
       header{
         background:rgba(247,249,253,.72)!important;
         border-bottom:1px solid rgba(129,119,158,.10)!important;
@@ -3639,6 +3664,27 @@
     markTaskEntry();
   }
 
+  function markTopModeTabs(){
+    document.querySelectorAll('.sl56-mode-tab').forEach(el=>el.classList.remove('sl56-mode-tab'));
+    document.querySelectorAll('.sl56-mode-tabs').forEach(el=>el.classList.remove('sl56-mode-tabs'));
+
+    const buttons=[...document.querySelectorAll('button,[role="button"],[role="tab"]')];
+    const chat=buttons.find(el=>(el.textContent||'').trim()==='聊天');
+    const work=buttons.find(el=>(el.textContent||'').trim()==='工作');
+    if(!chat||!work)return;
+
+    chat.classList.add('sl56-mode-tab');
+    work.classList.add('sl56-mode-tab');
+
+    let parent=chat.parentElement;
+    for(let i=0;i<4 && parent;i++,parent=parent.parentElement){
+      if(parent.contains(work)){
+        parent.classList.add('sl56-mode-tabs');
+        break;
+      }
+    }
+  }
+
   function addToggle(){
     if(document.getElementById(TOGGLE_ID)||!document.body)return;
     const b=document.createElement('button');
@@ -3983,6 +4029,7 @@
     detectState();
     detectScene();
     detectTaskPage();
+    markTopModeTabs();
     syncInteractionStateHint();
 
     if(!window.__SHUANGLI_V42_KEYS__){
@@ -4031,6 +4078,7 @@
     syncHeroImage();
     syncStateImage();
     detectTaskPage();
+    markTopModeTabs();
   },2500);
 
   setInterval(()=>{
