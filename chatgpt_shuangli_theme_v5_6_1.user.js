@@ -100,10 +100,11 @@
   }
 
   html,body{
-    background:
-      radial-gradient(circle at 82% 10%,rgba(204,188,234,calc(.34 * var(--sl-intensity))),transparent 28%),
-      radial-gradient(circle at 14% 88%,rgba(187,215,237,calc(.30 * var(--sl-intensity))),transparent 31%),
-      linear-gradient(145deg,#fbfbfe 0%,#f3f5fa 50%,#ece8f4 100%) !important;
+    background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
+    background-size:cover!important;
+    background-position:center center!important;
+    background-repeat:no-repeat!important;
+    background-attachment:fixed!important;
     color:var(--sl-ink)!important;
   }
 
