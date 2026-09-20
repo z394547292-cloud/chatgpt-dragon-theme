@@ -2812,11 +2812,13 @@
       }
 
       main{
-        background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
-        background-size:cover!important;
-        background-position:center center!important;
-        background-repeat:no-repeat!important;
-        background-attachment:fixed!important;
+        background-image:
+          linear-gradient(rgba(248,250,255,.58),rgba(248,250,255,.58)),
+          url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
+        background-size:auto,cover!important;
+        background-position:center center,center center!important;
+        background-repeat:no-repeat,no-repeat!important;
+        background-attachment:scroll,fixed!important;
       }
 
       main::after{
