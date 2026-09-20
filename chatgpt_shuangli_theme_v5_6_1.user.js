@@ -199,16 +199,25 @@
   }
 
   [data-message-author-role="user"] > div{
-    background:linear-gradient(145deg,rgba(225,221,239,.78),rgba(231,239,247,.70))!important;
-    border:1px solid rgba(145,136,174,.15)!important;
-    border-radius:21px 21px 8px 21px!important;
-    box-shadow:0 8px 26px rgba(78,74,98,.07)!important;
-    backdrop-filter:blur(12px)!important;
+    background:rgba(244,248,253,.92)!important;
+    border:1px solid rgba(145,136,174,.18)!important;
+    border-radius:24px 24px 10px 24px!important;
+    box-shadow:
+      0 10px 28px rgba(78,74,98,.10),
+      inset 0 0 0 1px rgba(255,255,255,.42)!important;
+    backdrop-filter:blur(16px)!important;
+    -webkit-backdrop-filter:blur(16px)!important;
   }
 
   [data-message-author-role="assistant"] > div{
-    background:rgba(255,255,255,.14)!important;
-    border-radius:18px!important;
+    background:rgba(250,252,255,.74)!important;
+    border:1px solid rgba(145,136,174,.16)!important;
+    border-radius:22px!important;
+    box-shadow:
+      0 10px 28px rgba(78,74,98,.08),
+      inset 0 0 0 1px rgba(255,255,255,.38)!important;
+    backdrop-filter:blur(16px)!important;
+    -webkit-backdrop-filter:blur(16px)!important;
   }
 
   :is(
