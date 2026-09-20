@@ -2898,17 +2898,52 @@
         border-color:rgba(150,136,182,.20)!important;
       }
 
+      /* Final chat bubble override */
+      [data-message-author-role="assistant"]{
+        width:fit-content!important;
+        max-width:min(92%,820px)!important;
+        margin-right:auto!important;
+        padding:14px 18px!important;
+        background:rgba(250,252,255,.82)!important;
+        border:1px solid rgba(145,136,174,.18)!important;
+        border-radius:22px!important;
+        box-shadow:
+          0 10px 28px rgba(78,74,98,.10),
+          inset 0 0 0 1px rgba(255,255,255,.42)!important;
+        backdrop-filter:blur(16px)!important;
+        -webkit-backdrop-filter:blur(16px)!important;
+      }
+
+      [data-message-author-role="user"]{
+        width:fit-content!important;
+        max-width:min(86%,760px)!important;
+        margin-left:auto!important;
+        padding:10px 16px!important;
+        background:rgba(244,248,253,.92)!important;
+        border:1px solid rgba(145,136,174,.18)!important;
+        border-radius:24px 24px 10px 24px!important;
+        box-shadow:
+          0 10px 28px rgba(78,74,98,.10),
+          inset 0 0 0 1px rgba(255,255,255,.42)!important;
+        backdrop-filter:blur(16px)!important;
+        -webkit-backdrop-filter:blur(16px)!important;
+      }
+
       [data-message-author-role="assistant"] > div{
         color:#403b4a!important;
+        background:transparent!important;
+        border:none!important;
+        box-shadow:none!important;
+      }
+
+      [data-message-author-role="user"] > div{
+        background:transparent!important;
+        border:none!important;
+        box-shadow:none!important;
       }
 
       [data-message-author-role="assistant"] :is(p,li,span,strong,em){
         text-shadow:none!important;
-      }
-
-      [data-message-author-role="user"] > div{
-        background:linear-gradient(145deg,rgba(220,218,237,.82),rgba(226,236,247,.76))!important;
-        border-color:rgba(139,129,170,.17)!important;
       }
 
       :is(
