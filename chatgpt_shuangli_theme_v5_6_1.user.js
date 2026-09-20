@@ -2813,7 +2813,7 @@
 
       main{
         background-image:
-          linear-gradient(rgba(248,250,255,.58),rgba(248,250,255,.58)),
+          linear-gradient(rgba(248,250,255,.72),rgba(248,250,255,.72)),
           url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
         background-size:auto,cover!important;
         background-position:center center,center center!important;
