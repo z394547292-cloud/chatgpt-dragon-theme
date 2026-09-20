@@ -2883,48 +2883,77 @@
         margin-top:26px!important;
       }
 
-      /* Clean Chat / Work switcher: make two separate pills with no overlap */
+      /* Clean Chat / Work switcher: remove the shared slider/track completely */
       .sl56-mode-tabs{
+        position:relative!important;
         background:transparent!important;
+        background-color:transparent!important;
         background-image:none!important;
         border:none!important;
         box-shadow:none!important;
         backdrop-filter:none!important;
         -webkit-backdrop-filter:none!important;
         padding:0!important;
+        margin:0!important;
         column-gap:12px!important;
         row-gap:0!important;
         overflow:visible!important;
+        isolation:isolate!important;
       }
 
       .sl56-mode-tabs::before,
       .sl56-mode-tabs::after{
         content:none!important;
         display:none!important;
+        background:none!important;
+        box-shadow:none!important;
       }
 
-      .sl56-mode-tabs > *{
+      .sl56-mode-tabs > :not(.sl56-mode-tab){
         background:transparent!important;
+        background-color:transparent!important;
+        background-image:none!important;
+        border:none!important;
+        box-shadow:none!important;
+        filter:none!important;
+      }
+
+      .sl56-mode-tabs > :not(.sl56-mode-tab)::before,
+      .sl56-mode-tabs > :not(.sl56-mode-tab)::after{
+        content:none!important;
+        display:none!important;
+        background:none!important;
         box-shadow:none!important;
       }
 
       .sl56-mode-tab{
         position:relative!important;
-        z-index:1!important;
+        z-index:3!important;
         flex:0 0 auto!important;
-        margin:0 4px!important;
+        margin:0!important;
         transform:none!important;
         border-radius:14px!important;
         background:rgba(250,251,255,.90)!important;
+        background-image:none!important;
         border:1px solid rgba(135,124,165,.12)!important;
         box-shadow:none!important;
         overflow:hidden!important;
       }
 
+      .sl56-mode-tab *{
+        background:transparent!important;
+        background-image:none!important;
+        box-shadow:none!important;
+      }
+
       .sl56-mode-tab::before,
-      .sl56-mode-tab::after{
+      .sl56-mode-tab::after,
+      .sl56-mode-tab *::before,
+      .sl56-mode-tab *::after{
         content:none!important;
         display:none!important;
+        background:none!important;
+        box-shadow:none!important;
       }
 
       header{
@@ -3696,9 +3725,19 @@
     work.classList.add('sl56-mode-tab');
 
     let parent=chat.parentElement;
-    for(let i=0;i<4 && parent;i++,parent=parent.parentElement){
+    for(let i=0;i<6 && parent;i++,parent=parent.parentElement){
       if(parent.contains(work)){
         parent.classList.add('sl56-mode-tabs');
+
+        [...parent.children].forEach(child=>{
+          if(child!==chat && child!==work){
+            const text=(child.textContent||'').trim();
+            const hasButton=child.contains(chat)||child.contains(work);
+            if(!hasButton && !text){
+              child.style.setProperty('display','none','important');
+            }
+          }
+        });
         break;
       }
     }
