@@ -2878,6 +2878,11 @@
           0 6px 18px rgba(75,66,103,.08)!important;
       }
 
+      /* Keep the Projects row clear of the sticky New Chat block */
+      .sl56-project-entry{
+        margin-top:26px!important;
+      }
+
       header{
         background:rgba(247,249,253,.72)!important;
         border-bottom:1px solid rgba(129,119,158,.10)!important;
@@ -3608,11 +3613,18 @@
     let found=false;
     for(const el of candidates){
       const t=(el.textContent||'').trim();
+
       if(/^(定时任务|任务|Tasks?)$/i.test(t) || /定时任务/i.test(t)){
         el.classList.add('sl51-task-entry');
         found=true;
       }else{
         el.classList.remove('sl51-task-entry');
+      }
+
+      if(/^(项目|Projects?)$/i.test(t)){
+        el.classList.add('sl56-project-entry');
+      }else{
+        el.classList.remove('sl56-project-entry');
       }
     }
     return found;
