@@ -2883,7 +2883,7 @@
         margin-top:26px!important;
       }
 
-      /* Clean Chat / Work switcher: remove overlapping white backing */
+      /* Clean Chat / Work switcher: make two separate pills with no overlap */
       .sl56-mode-tabs{
         background:transparent!important;
         background-image:none!important;
@@ -2892,20 +2892,39 @@
         backdrop-filter:none!important;
         -webkit-backdrop-filter:none!important;
         padding:0!important;
-        gap:8px!important;
+        column-gap:12px!important;
+        row-gap:0!important;
+        overflow:visible!important;
       }
 
       .sl56-mode-tabs::before,
       .sl56-mode-tabs::after{
+        content:none!important;
         display:none!important;
       }
 
+      .sl56-mode-tabs > *{
+        background:transparent!important;
+        box-shadow:none!important;
+      }
+
       .sl56-mode-tab{
-        margin:0!important;
+        position:relative!important;
+        z-index:1!important;
+        flex:0 0 auto!important;
+        margin:0 4px!important;
+        transform:none!important;
         border-radius:14px!important;
-        background:rgba(250,251,255,.86)!important;
-        border:1px solid rgba(135,124,165,.13)!important;
-        box-shadow:0 5px 14px rgba(70,64,90,.055)!important;
+        background:rgba(250,251,255,.90)!important;
+        border:1px solid rgba(135,124,165,.12)!important;
+        box-shadow:none!important;
+        overflow:hidden!important;
+      }
+
+      .sl56-mode-tab::before,
+      .sl56-mode-tab::after{
+        content:none!important;
+        display:none!important;
       }
 
       header{
