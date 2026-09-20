@@ -2883,20 +2883,20 @@
         margin-top:26px!important;
       }
 
-      /* Clean Chat / Work switcher: align both tabs exactly to the shared white track */
+      /* Clean Chat / Work switcher: remove the shared white backing completely */
       .sl56-mode-tabs{
         position:relative!important;
         display:flex!important;
-        align-items:stretch!important;
-        justify-content:stretch!important;
-        gap:0!important;
+        align-items:center!important;
+        justify-content:center!important;
+        gap:10px!important;
         padding:0!important;
         margin:0!important;
-        overflow:hidden!important;
-        border-radius:14px!important;
-        background:rgba(250,251,255,.90)!important;
+        overflow:visible!important;
+        background:transparent!important;
+        background-color:transparent!important;
         background-image:none!important;
-        border:1px solid rgba(135,124,165,.12)!important;
+        border:none!important;
         box-shadow:none!important;
         backdrop-filter:none!important;
         -webkit-backdrop-filter:none!important;
@@ -2907,41 +2907,41 @@
       .sl56-mode-tabs::after{
         content:none!important;
         display:none!important;
+        background:none!important;
+        box-shadow:none!important;
       }
 
-      .sl56-mode-tabs > :not(.sl56-mode-tab){
+      .sl56-mode-tabs *:not(.sl56-mode-tab):not(.sl56-mode-tab *){
+        background:transparent!important;
+        background-color:transparent!important;
+        background-image:none!important;
+        border-color:transparent!important;
+        box-shadow:none!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
+      }
+
+      .sl56-mode-tabs *:not(.sl56-mode-tab):not(.sl56-mode-tab *)::before,
+      .sl56-mode-tabs *:not(.sl56-mode-tab):not(.sl56-mode-tab *)::after{
+        content:none!important;
         display:none!important;
+        background:none!important;
+        box-shadow:none!important;
       }
 
       .sl56-mode-tab{
         position:relative!important;
-        z-index:2!important;
-        flex:1 1 50%!important;
-        width:50%!important;
-        min-width:0!important;
-        height:100%!important;
+        z-index:3!important;
+        flex:0 0 auto!important;
+        min-width:108px!important;
         margin:0!important;
-        padding-left:18px!important;
-        padding-right:18px!important;
         transform:none!important;
-        background:transparent!important;
+        border-radius:14px!important;
+        background:rgba(250,251,255,.92)!important;
         background-image:none!important;
-        border:0!important;
-        border-radius:0!important;
-        box-shadow:none!important;
+        border:1px solid rgba(135,124,165,.12)!important;
+        box-shadow:0 4px 12px rgba(70,64,90,.05)!important;
         overflow:hidden!important;
-      }
-
-      .sl56-mode-tab:first-of-type{
-        border-radius:14px 0 0 14px!important;
-      }
-
-      .sl56-mode-tab:last-of-type{
-        border-radius:0 14px 14px 0!important;
-      }
-
-      .sl56-mode-tab + .sl56-mode-tab{
-        border-left:1px solid rgba(135,124,165,.12)!important;
       }
 
       .sl56-mode-tab *{
@@ -2956,6 +2956,8 @@
       .sl56-mode-tab *::after{
         content:none!important;
         display:none!important;
+        background:none!important;
+        box-shadow:none!important;
       }
 
       header{
