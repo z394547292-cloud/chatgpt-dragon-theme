@@ -199,12 +199,12 @@
   }
 
   [data-message-author-role="user"] > div{
-    background:rgba(244,248,253,.92)!important;
-    border:1px solid rgba(145,136,174,.18)!important;
+    background:rgba(244,248,253,.84)!important;
+    border:1px solid rgba(145,136,174,.12)!important;
     border-radius:24px 24px 10px 24px!important;
     box-shadow:
-      0 10px 28px rgba(78,74,98,.10),
-      inset 0 0 0 1px rgba(255,255,255,.42)!important;
+      0 8px 22px rgba(78,74,98,.06),
+      inset 0 0 0 1px rgba(255,255,255,.28)!important;
     backdrop-filter:blur(16px)!important;
     -webkit-backdrop-filter:blur(16px)!important;
   }
@@ -2904,7 +2904,7 @@
         max-width:min(92%,820px)!important;
         margin-right:auto!important;
         padding:14px 18px!important;
-        background:rgba(250,252,255,.82)!important;
+        background:rgba(250,252,255,.66)!important;
         border:1px solid rgba(145,136,174,.18)!important;
         border-radius:22px!important;
         box-shadow:
