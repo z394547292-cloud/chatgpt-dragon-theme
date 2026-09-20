@@ -2883,57 +2883,49 @@
         margin-top:26px!important;
       }
 
-      /* Clean Chat / Work switcher: remove the shared white backing completely */
-      .sl56-mode-tabs{
-        position:relative!important;
-        display:flex!important;
-        align-items:center!important;
-        justify-content:center!important;
-        gap:10px!important;
-        padding:0!important;
-        margin:0!important;
-        overflow:visible!important;
+      /* Chat / Work switcher: aggressively clear every wrapper layer */
+      .sl56-mode-tabs,
+      .sl56-mode-wrap{
         background:transparent!important;
         background-color:transparent!important;
         background-image:none!important;
         border:none!important;
         box-shadow:none!important;
+        outline:none!important;
+        filter:none!important;
         backdrop-filter:none!important;
         -webkit-backdrop-filter:none!important;
-        isolation:isolate!important;
       }
 
       .sl56-mode-tabs::before,
-      .sl56-mode-tabs::after{
+      .sl56-mode-tabs::after,
+      .sl56-mode-wrap::before,
+      .sl56-mode-wrap::after{
         content:none!important;
         display:none!important;
         background:none!important;
+        border:none!important;
         box-shadow:none!important;
       }
 
-      .sl56-mode-tabs *:not(.sl56-mode-tab):not(.sl56-mode-tab *){
-        background:transparent!important;
-        background-color:transparent!important;
-        background-image:none!important;
-        border-color:transparent!important;
-        box-shadow:none!important;
-        backdrop-filter:none!important;
-        -webkit-backdrop-filter:none!important;
-      }
-
-      .sl56-mode-tabs *:not(.sl56-mode-tab):not(.sl56-mode-tab *)::before,
-      .sl56-mode-tabs *:not(.sl56-mode-tab):not(.sl56-mode-tab *)::after{
-        content:none!important;
-        display:none!important;
-        background:none!important;
-        box-shadow:none!important;
+      .sl56-mode-tabs{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        gap:8px!important;
+        padding:0!important;
+        margin:0!important;
+        overflow:visible!important;
+        isolation:isolate!important;
       }
 
       .sl56-mode-tab{
         position:relative!important;
-        z-index:3!important;
-        flex:0 0 auto!important;
+        z-index:5!important;
+        flex:0 0 108px!important;
+        width:108px!important;
         min-width:108px!important;
+        max-width:108px!important;
         margin:0!important;
         transform:none!important;
         border-radius:14px!important;
@@ -2957,6 +2949,7 @@
         content:none!important;
         display:none!important;
         background:none!important;
+        border:none!important;
         box-shadow:none!important;
       }
 
@@ -3719,6 +3712,7 @@
   function markTopModeTabs(){
     document.querySelectorAll('.sl56-mode-tab').forEach(el=>el.classList.remove('sl56-mode-tab'));
     document.querySelectorAll('.sl56-mode-tabs').forEach(el=>el.classList.remove('sl56-mode-tabs'));
+    document.querySelectorAll('.sl56-mode-wrap').forEach(el=>el.classList.remove('sl56-mode-wrap'));
 
     const buttons=[...document.querySelectorAll('button,[role="button"],[role="tab"]')];
     const chat=buttons.find(el=>(el.textContent||'').trim()==='聊天');
@@ -3728,23 +3722,41 @@
     chat.classList.add('sl56-mode-tab');
     work.classList.add('sl56-mode-tab');
 
-    let parent=chat.parentElement;
-    for(let i=0;i<6 && parent;i++,parent=parent.parentElement){
-      if(parent.contains(work)){
-        parent.classList.add('sl56-mode-tabs');
+    const chain=(el)=>{
+      const arr=[];
+      let p=el.parentElement;
+      for(let i=0;i<8 && p;i++,p=p.parentElement)arr.push(p);
+      return arr;
+    };
+    const chatChain=chain(chat);
+    const workChain=chain(work);
+    const common=chatChain.find(el=>workChain.includes(el));
+    if(!common)return;
 
-        [...parent.children].forEach(child=>{
-          if(child!==chat && child!==work){
-            const text=(child.textContent||'').trim();
-            const hasButton=child.contains(chat)||child.contains(work);
-            if(!hasButton && !text){
-              child.style.setProperty('display','none','important');
-            }
-          }
-        });
-        break;
-      }
+    common.classList.add('sl56-mode-tabs');
+
+    let p=chat.parentElement;
+    while(p && p!==common){
+      p.classList.add('sl56-mode-wrap');
+      p=p.parentElement;
     }
+    p=work.parentElement;
+    while(p && p!==common){
+      p.classList.add('sl56-mode-wrap');
+      p=p.parentElement;
+    }
+
+    [...common.children].forEach(child=>{
+      if(child===chat || child===work || child.contains(chat) || child.contains(work)){
+        return;
+      }
+      const text=(child.textContent||'').trim();
+      if(!text){
+        child.style.setProperty('display','none','important');
+      }else{
+        child.classList.add('sl56-mode-wrap');
+      }
+    });
   }
 
   function addToggle(){
