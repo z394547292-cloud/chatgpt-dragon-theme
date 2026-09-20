@@ -2793,10 +2793,11 @@
       }
 
       html,body{
-        background:
-          radial-gradient(circle at 84% 12%,rgba(201,187,230,.22),transparent 28%),
-          radial-gradient(circle at 12% 88%,rgba(184,211,234,.18),transparent 32%),
-          linear-gradient(145deg,#f7f8fc 0%,#eef2f8 52%,#e9e5f1 100%)!important;
+        background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
+        background-size:cover!important;
+        background-position:center center!important;
+        background-repeat:no-repeat!important;
+        background-attachment:fixed!important;
         color:var(--sl551-text)!important;
       }
 
