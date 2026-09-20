@@ -2883,11 +2883,10 @@
         margin-top:26px!important;
       }
 
-      /* Chat / Work switcher: aggressively clear every wrapper layer */
+      /* Chat / Work switcher: safe visual fix without changing layout */
       .sl56-mode-tabs,
       .sl56-mode-wrap{
         background:transparent!important;
-        background-color:transparent!important;
         background-image:none!important;
         border:none!important;
         box-shadow:none!important;
@@ -2908,49 +2907,20 @@
         box-shadow:none!important;
       }
 
-      .sl56-mode-tabs{
-        display:flex!important;
-        align-items:center!important;
-        justify-content:center!important;
-        gap:8px!important;
-        padding:0!important;
-        margin:0!important;
-        overflow:visible!important;
-        isolation:isolate!important;
-      }
-
       .sl56-mode-tab{
-        position:relative!important;
-        z-index:5!important;
-        flex:0 0 108px!important;
-        width:108px!important;
-        min-width:108px!important;
-        max-width:108px!important;
+        white-space:nowrap!important;
+        min-width:112px!important;
+        width:auto!important;
+        max-width:none!important;
         margin:0!important;
-        transform:none!important;
+        padding-left:22px!important;
+        padding-right:22px!important;
         border-radius:14px!important;
         background:rgba(250,251,255,.92)!important;
         background-image:none!important;
         border:1px solid rgba(135,124,165,.12)!important;
-        box-shadow:0 4px 12px rgba(70,64,90,.05)!important;
-        overflow:hidden!important;
-      }
-
-      .sl56-mode-tab *{
-        background:transparent!important;
-        background-image:none!important;
         box-shadow:none!important;
-      }
-
-      .sl56-mode-tab::before,
-      .sl56-mode-tab::after,
-      .sl56-mode-tab *::before,
-      .sl56-mode-tab *::after{
-        content:none!important;
-        display:none!important;
-        background:none!important;
-        border:none!important;
-        box-shadow:none!important;
+        overflow:visible!important;
       }
 
       header{
@@ -3722,40 +3692,16 @@
     chat.classList.add('sl56-mode-tab');
     work.classList.add('sl56-mode-tab');
 
-    const chain=(el)=>{
-      const arr=[];
-      let p=el.parentElement;
-      for(let i=0;i<8 && p;i++,p=p.parentElement)arr.push(p);
-      return arr;
-    };
-    const chatChain=chain(chat);
-    const workChain=chain(work);
-    const common=chatChain.find(el=>workChain.includes(el));
+    let common=chat.parentElement;
+    while(common && !common.contains(work)){
+      common=common.parentElement;
+    }
     if(!common)return;
 
     common.classList.add('sl56-mode-tabs');
 
-    let p=chat.parentElement;
-    while(p && p!==common){
-      p.classList.add('sl56-mode-wrap');
-      p=p.parentElement;
-    }
-    p=work.parentElement;
-    while(p && p!==common){
-      p.classList.add('sl56-mode-wrap');
-      p=p.parentElement;
-    }
-
-    [...common.children].forEach(child=>{
-      if(child===chat || child===work || child.contains(chat) || child.contains(work)){
-        return;
-      }
-      const text=(child.textContent||'').trim();
-      if(!text){
-        child.style.setProperty('display','none','important');
-      }else{
-        child.classList.add('sl56-mode-wrap');
-      }
+    [chat.parentElement, work.parentElement].forEach(el=>{
+      if(el && el!==common) el.classList.add('sl56-mode-wrap');
     });
   }
 
