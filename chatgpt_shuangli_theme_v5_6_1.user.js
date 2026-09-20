@@ -39,7 +39,6 @@
   const CELEBRATE_ID = 'sl54-celebrate';
   const POLISH_STYLE_ID = 'sl551-polish-style';
   const DETAIL_STYLE_ID = 'sl56-detail-style';
-  const PAGE_BG_ID = 'sl561-page-bg';
 
   // Reuse V4.1 keys so imported image / position / hidden state continue working.
   const KEY_IMG = 'sl41_image';
@@ -127,36 +126,6 @@
     filter:blur(18px);
     animation:slBreath 7s ease-in-out infinite;
     opacity:var(--sl-intensity);
-  }
-
-  /* V5.6.1 page background image only */
-  #${PAGE_BG_ID}{
-    position:fixed;
-    inset:0;
-    width:100vw;
-    height:100vh;
-    object-fit:cover;
-    object-position:center center;
-    pointer-events:none;
-    user-select:none;
-    z-index:-2147483647;
-  }
-
-  html,body{
-    background:transparent!important;
-  }
-
-  body{
-    position:relative!important;
-    min-height:100vh;
-  }
-
-  #__next,
-  #root,
-  [data-testid="root"],
-  [data-testid="app-shell"],
-  main{
-    background-color:transparent!important;
   }
 
   @keyframes slBreath{
@@ -2119,16 +2088,6 @@
   `;
 
 
-  function addPageBackground(){
-    if(document.getElementById(PAGE_BG_ID)||!document.body)return;
-    const img=document.createElement('img');
-    img.id=PAGE_BG_ID;
-    img.src='https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png';
-    img.alt='';
-    img.setAttribute('aria-hidden','true');
-    document.body.prepend(img);
-  }
-
   function addStyle(){
     if(document.getElementById(STYLE_ID))return;
     const s=document.createElement('style');
@@ -2853,8 +2812,11 @@
       }
 
       main{
-        background:
-          linear-gradient(90deg,rgba(252,253,255,.22),rgba(249,250,254,.08) 62%,rgba(236,232,245,.14))!important;
+        background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
+        background-size:cover!important;
+        background-position:center center!important;
+        background-repeat:no-repeat!important;
+        background-attachment:fixed!important;
       }
 
       main::after{
@@ -3931,7 +3893,6 @@
 
   function boot(){
     addStyle();
-    addPageBackground();
     addFx();
     addPanel();
     addToggle();
@@ -3985,7 +3946,6 @@
 
   setInterval(()=>{
     addStyle();
-    addPageBackground();
     addFx();
     addPanel();
     addToggle();
