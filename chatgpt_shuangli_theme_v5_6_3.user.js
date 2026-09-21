@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         ChatGPT 霜璃 · 四阶段冰晶舞台版 V5.7.2
+// @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.2
-// @description  网页版霜璃主题 V5.7.2：增强识别 ChatGPT 无标准标记的系统设置遮罩，弹窗出现时彻底隐藏人物。
+// @version      5.7.3
+// @description  网页版霜璃主题 V5.7.3：固定脚本名称避免多版本并行；增强识别系统设置遮罩，弹窗出现时彻底隐藏人物。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -4362,5 +4362,5 @@
     maybeIdleChatter();
   },15000);
 
-  console.log('[霜璃主题] V5.7.2 loaded · structural modal auto-hide');
+  console.log('[霜璃主题] V5.7.3 loaded · stable identity and structural modal auto-hide');
 })();
