@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         ChatGPT 霜璃 · 四阶段冰晶舞台版 V5.7.1
+// @name         ChatGPT 霜璃 · 四阶段冰晶舞台版 V5.7.2
 // @namespace    https://chatgpt.com/
-// @version      5.7.1
-// @description  网页版霜璃主题 V5.7.1：输出与完成合并；打开 ChatGPT 系统设置、菜单或其他模态弹窗时自动隐藏人物。
+// @version      5.7.2
+// @description  网页版霜璃主题 V5.7.2：增强识别 ChatGPT 无标准标记的系统设置遮罩，弹窗出现时彻底隐藏人物。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -3602,15 +3602,57 @@
   }
 
   let sl571ModalFrame=0;
+  function isThemeNode(el){
+    return !el || el===document.documentElement || el===document.body ||
+      (el.id&&el.id.startsWith('sl')) || !!el.closest('[id^="sl"]');
+  }
+
+  function isVisibleModalBox(el){
+    if(isThemeNode(el))return false;
+    const cs=getComputedStyle(el);
+    if(cs.display==='none'||cs.visibility==='hidden'||Number(cs.opacity||1)<=0)return false;
+    const r=el.getBoundingClientRect();
+    if(r.width<120||r.height<80)return false;
+    return true;
+  }
+
+  function hasLargeSystemOverlay(){
+    const points=[
+      [innerWidth*.5,innerHeight*.5],
+      [innerWidth*.35,innerHeight*.35],
+      [innerWidth*.65,innerHeight*.35],
+      [innerWidth*.35,innerHeight*.65],
+      [innerWidth*.65,innerHeight*.65]
+    ];
+    const candidates=new Set();
+    points.forEach(([x,y])=>{
+      document.elementsFromPoint(x,y).forEach(node=>{
+        let el=node;
+        for(let depth=0;el&&depth<8;depth++,el=el.parentElement)candidates.add(el);
+      });
+    });
+    return [...candidates].some(el=>{
+      if(!isVisibleModalBox(el))return false;
+      const cs=getComputedStyle(el);
+      if(cs.position!=='fixed')return false;
+      const r=el.getBoundingClientRect();
+      const large=r.width>=innerWidth*.52&&r.height>=innerHeight*.52;
+      const centered=r.width>=Math.min(420,innerWidth*.34)&&
+        r.height>=Math.min(300,innerHeight*.34)&&
+        Math.abs((r.left+r.width/2)-innerWidth/2)<innerWidth*.22&&
+        Math.abs((r.top+r.height/2)-innerHeight/2)<innerHeight*.24;
+      return large||centered;
+    });
+  }
+
   function syncSystemModalState(){
     sl571ModalFrame=0;
     const selectors='[aria-modal="true"],[role="dialog"],[data-testid*="modal" i],[data-testid*="dialog" i]';
-    const open=[...document.querySelectorAll(selectors)].some(el=>{
+    const semanticOpen=[...document.querySelectorAll(selectors)].some(el=>{
       if(el.id===SETTINGS_ID || el.id==='sl48-image-manager')return false;
-      const cs=getComputedStyle(el);
-      const r=el.getBoundingClientRect();
-      return cs.display!=='none' && cs.visibility!=='hidden' && Number(cs.opacity||1)>0 && r.width>120 && r.height>80;
+      return isVisibleModalBox(el);
     });
+    const open=semanticOpen||hasLargeSystemOverlay();
     document.documentElement.classList.toggle('sl571-system-modal-open',open);
   }
 
@@ -3627,9 +3669,15 @@
       childList:true,
       subtree:true,
       attributes:true,
-      attributeFilter:['aria-modal','aria-hidden','data-state','open','style']
+      attributeFilter:['aria-modal','aria-hidden','data-state','open','style','class']
     });
     window.addEventListener('focus',scheduleSystemModalCheck,{passive:true});
+    document.addEventListener('pointerup',()=>{
+      scheduleSystemModalCheck();
+      setTimeout(scheduleSystemModalCheck,80);
+      setTimeout(scheduleSystemModalCheck,260);
+      setTimeout(scheduleSystemModalCheck,600);
+    },{passive:true,capture:true});
     scheduleSystemModalCheck();
   }
 
@@ -4314,5 +4362,5 @@
     maybeIdleChatter();
   },15000);
 
-  console.log('[霜璃主题] V5.7.1 loaded · native modal auto-hide');
+  console.log('[霜璃主题] V5.7.2 loaded · structural modal auto-hide');
 })();
