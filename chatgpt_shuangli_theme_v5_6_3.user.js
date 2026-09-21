@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         ChatGPT 霜璃 · 左侧冰晶舞台版 V5.6.3
+// @name         ChatGPT 霜璃 · 左侧冰晶舞台版 V5.6.4
 // @namespace    https://chatgpt.com/
-// @version      5.6.3
-// @description  网页版霜璃主题 V5.6.3：人物移入左侧空白区，背景水平镜像使冰晶台阶位于左下，并同步校准互动热区、气泡与状态特效。
+// @version      5.6.4
+// @description  网页版霜璃主题 V5.6.4：人物与台阶移至左侧；打开设置菜单时自动弱化人物，并修正五状态完成图片映射。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -71,7 +71,7 @@
     idle: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/idle.webp',
     thinking: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/thinking.webp',
     generating: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/generating.webp',
-    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/idle.webp?v=540'
+    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/done.webp'
   };
 
   const lines = [
@@ -3529,6 +3529,16 @@
         right:auto!important;
       }
 
+      /* Keep the settings dialog visually dominant. */
+      html.sl563-settings-open body #${HERO_ID}{
+        opacity:.08!important;
+        filter:saturate(.45) brightness(.92) blur(.45px)!important;
+        transition:opacity .18s ease,filter .18s ease!important;
+      }
+      html.sl563-settings-open #${HITBOX_ID}{pointer-events:none!important}
+      html.sl563-settings-open #${SPEECH_ID},
+      html.sl563-settings-open #${CELEBRATE_ID}{display:none!important}
+
       @media(max-width:1200px){
         html body #${HERO_ID},
         html[data-sl-scene] body #${HERO_ID},
@@ -4145,11 +4155,13 @@
 
   function openSettings(){
     addSettings();
+    document.documentElement.classList.add('sl563-settings-open');
     document.getElementById(BACKDROP_ID).style.display='block';
     document.getElementById(SETTINGS_ID).style.display='block';
   }
 
   function closeSettings(){
+    document.documentElement.classList.remove('sl563-settings-open');
     const b=document.getElementById(BACKDROP_ID);
     const s=document.getElementById(SETTINGS_ID);
     if(b)b.style.display='none';
@@ -4257,5 +4269,5 @@
     maybeIdleChatter();
   },15000);
 
-  console.log('[霜璃主题] V5.6.3 loaded · left-side ice stage');
+  console.log('[霜璃主题] V5.6.4 loaded · quiet settings overlay');
 })();
