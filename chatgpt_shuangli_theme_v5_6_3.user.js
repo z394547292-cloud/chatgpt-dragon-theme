@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         ChatGPT 霜璃 · 左侧冰晶舞台版 V5.6.4
+// @name         ChatGPT 霜璃 · 四阶段冰晶舞台版 V5.7.0
 // @namespace    https://chatgpt.com/
-// @version      5.6.4
-// @description  网页版霜璃主题 V5.6.4：人物与台阶移至左侧；打开设置菜单时自动弱化人物，并修正五状态完成图片映射。
+// @version      5.7.0
+// @description  网页版霜璃主题 V5.7.0：输出与完成合并为同一阶段，统一使用重绘后的输出完成图；设置菜单开启时自动弱化人物。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -70,8 +70,8 @@
     home: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/home.webp',
     idle: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/idle.webp',
     thinking: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/thinking.webp',
-    generating: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/generating.webp',
-    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/done.webp'
+    generating: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/output-done-v2.webp',
+    done: 'https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/shuangli-v5/output-done-v2.webp'
   };
 
   const lines = [
@@ -2342,8 +2342,7 @@
 
   function stateText(state){
     return state==='thinking'?'❄ 思考中':
-      state==='generating'?'🐉 龙息输出':
-      state==='done'?'✦ 完成':'❄ 待命';
+      (state==='generating'||state==='done')?'✦ 输出／完成':'❄ 待命';
   }
 
   function setState(state){
@@ -2532,17 +2531,17 @@
   function stateImageKey(state){
     if(state==='home') return KEY_STATE_HOME_IMG;
     if(state==='thinking') return KEY_STATE_THINK_IMG;
-    if(state==='generating') return KEY_STATE_GEN_IMG;
-    if(state==='done') return KEY_STATE_DONE_IMG;
+    if(state==='generating'||state==='done') return KEY_STATE_DONE_IMG;
     return KEY_STATE_IDLE_IMG;
   }
 
   function getStateImage(state){
+    const visualState=(state==='generating'||state==='done')?'done':state;
     if(get(KEY_STATE_IMAGES,'1')==='0'){
       return localStorage.getItem(KEY_IMG) || BUILTIN_STATE_IMAGES.idle;
     }
-    return localStorage.getItem(stateImageKey(state))
-      || BUILTIN_STATE_IMAGES[state]
+    return localStorage.getItem(stateImageKey(visualState))
+      || BUILTIN_STATE_IMAGES[visualState]
       || localStorage.getItem(KEY_IMG)
       || BUILTIN_STATE_IMAGES.idle;
   }
@@ -2656,18 +2655,17 @@
     };
 
     m.innerHTML=
-      '<h3 style="margin:0 0 5px">❄ 霜璃五状态图片</h3>'+
-      '<p style="margin:0 0 14px;color:#777184;font-size:12px;line-height:1.6">已内置 5 张高清霜璃状态图；你仍然可以导入自己的图片覆盖任意状态，清除后自动恢复内置高清图。</p>'+
+      '<h3 style="margin:0 0 5px">❄ 霜璃四阶段图片</h3>'+
+      '<p style="margin:0 0 14px;color:#777184;font-size:12px;line-height:1.6">输出与完成已合并为同一阶段；你仍然可以导入自己的图片覆盖任意阶段，清除后自动恢复内置高清图。</p>'+
       row('home','首页')+
       row('idle','待机')+
       row('thinking','思考')+
-      row('generating','输出')+
-      row('done','完成')+
+      row('done','输出／完成')+
       '<div style="display:flex;justify-content:flex-end;margin-top:14px"><button class="sl42-btn" data-close="1">完成</button></div>';
 
     document.body.appendChild(m);
 
-    const labels={home:'首页',idle:'待机',thinking:'思考',generating:'输出',done:'完成'};
+    const labels={home:'首页',idle:'待机',thinking:'思考',done:'输出／完成'};
     m.querySelectorAll('[data-set]').forEach(btn=>{
       btn.onclick=()=>chooseStateImage(btn.dataset.set,labels[btn.dataset.set]);
     });
@@ -2693,8 +2691,7 @@
       '<span class="dot home"></span>'+
       '<span class="dot idle"></span>'+
       '<span class="dot thinking"></span>'+
-      '<span class="dot generating"></span>'+
-      '<span class="dot done"></span>'+
+      '<span class="dot generating done"></span>'+
       '<span>STATE</span>';
     document.body.appendChild(p);
   }
@@ -2703,8 +2700,8 @@
     home:'欢迎回来。霜璃已经在这里等你了。',
     idle:'嗯，在这呢。',
     thinking:'让我把这个问题理清楚。',
-    generating:'正在把答案整理给你。',
-    done:'好了，这一轮完成了。'
+    generating:'正在输出／完成这一轮。',
+    done:'输出／完成阶段结束。'
   };
 
   function syncStateDialogue(state){
@@ -3594,16 +3591,16 @@
     home:['欢迎回来。','今天也交给我吧。','我已经准备好了。'],
     idle:['嗯？我在。','有事叫我就好。','还在陪着你呢。','别戳太用力呀。'],
     thinking:['先让我想清楚。','这里得认真一点。','嗯……再给我一点点时间。'],
-    generating:['正在整理。','马上就好。','别急，答案正在成形。'],
-    done:['完成啦。','这一轮结束了。','好了，可以看看结果了。']
+    generating:['正在输出／完成。','马上就好。','答案正在成形。'],
+    done:['输出／完成啦。','这一轮结束了。','好了，可以看看结果了。']
   };
 
   const sl53StateLines={
     home:'欢迎回来。',
     idle:'我在这边待命。',
     thinking:'让我想一下。',
-    generating:'正在整理给你。',
-    done:'好了，完成啦。'
+    generating:'正在输出／完成。',
+    done:'输出／完成啦。'
   };
 
   let sl53SpeechTimer=null;
@@ -3946,7 +3943,7 @@
       </div>
 
       <div class="row">
-        <span>五状态角色图</span>
+        <span>四阶段角色图</span>
         <select data-k="stateimages">
           <option value="1">开启</option>
           <option value="0">关闭</option>
@@ -4269,5 +4266,5 @@
     maybeIdleChatter();
   },15000);
 
-  console.log('[霜璃主题] V5.6.4 loaded · quiet settings overlay');
+  console.log('[霜璃主题] V5.7.0 loaded · four-stage state system');
 })();
