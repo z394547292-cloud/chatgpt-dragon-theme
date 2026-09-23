@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.6
-// @description  网页版霜璃主题 V5.7.6：修复回复气泡，并在原生安全设置页面隐藏人物。
+// @version      5.7.7
+// @description  网页版霜璃主题 V5.7.7：根据实际回复段落结构恢复气泡，保留侧栏及设置页修复。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -2999,11 +2999,26 @@
 
       /* Last-resort card on the assistant turn: newer renderers can omit all
          three text-wrapper classes, leaving the old selectors unmatched. */
-      main :is([data-testid^="conversation-turn-"]:not(:has(.agent-turn)),.agent-turn):not(.user-turn):not(:has([data-message-author-role="user"])){
+      main :is([data-testid^="conversation-turn-"]:not(:has(.agent-turn)),.agent-turn):not(.user-turn):not(:has([data-message-author-role="user"])){ 
         background:rgba(250,252,255,.86)!important;
         border:1px solid rgba(145,136,174,.22)!important;
         border-radius:22px!important;
         box-shadow:0 10px 28px rgba(78,74,98,.12),inset 0 0 0 1px rgba(255,255,255,.42)!important;
+        backdrop-filter:blur(16px)!important;
+        -webkit-backdrop-filter:blur(16px)!important;
+      }
+
+      /* The visible reply now consists of direct p[data-markdown-dir] children.
+         Their parent gives all paragraphs one continuous bubble. */
+      main div:has(> p[data-markdown-dir="auto"]){
+        display:flow-root!important;
+        box-sizing:border-box!important;
+        max-width:100%!important;
+        padding:14px 18px!important;
+        background:rgba(250,252,255,.92)!important;
+        border:1px solid rgba(145,136,174,.22)!important;
+        border-radius:22px!important;
+        box-shadow:0 10px 28px rgba(78,74,98,.12),inset 0 0 0 1px rgba(255,255,255,.45)!important;
         backdrop-filter:blur(16px)!important;
         -webkit-backdrop-filter:blur(16px)!important;
       }
