@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.10
-// @description  网页版霜璃主题 V5.7.10：填充滚动区底部留白，背景延伸至输入框后方。
+// @version      5.7.11
+// @description  网页版霜璃主题 V5.7.11：统一聊天区背景与输入区外侧透明层。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -100,14 +100,7 @@
     --sl-state-violet:rgba(181,160,226,.22);
   }
 
-  html,body{
-    background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
-    background-size:cover!important;
-    background-position:center center!important;
-    background-repeat:no-repeat!important;
-    background-attachment:fixed!important;
-    color:var(--sl-ink)!important;
-  }
+  html,body{color:var(--sl-ink)!important}
 
   body::before{
     content:"";
@@ -2774,14 +2767,7 @@
         --sl551-text:#3f3a4a;
       }
 
-      html,body{
-        background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
-        background-size:cover!important;
-        background-position:center center!important;
-        background-repeat:no-repeat!important;
-        background-attachment:fixed!important;
-        color:var(--sl551-text)!important;
-      }
+      html,body{color:var(--sl551-text)!important}
 
       body::before{
         opacity:calc(.46 * var(--sl-intensity))!important;
@@ -2790,16 +2776,6 @@
       body::after{
         opacity:calc(.52 * var(--sl-intensity))!important;
         filter:blur(24px)!important;
-      }
-
-      main{
-        background-image:
-          linear-gradient(rgba(248,250,255,.72),rgba(248,250,255,.72)),
-          url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
-        background-size:auto,cover!important;
-        background-position:center center,center center!important;
-        background-repeat:no-repeat,no-repeat!important;
-        background-attachment:scroll,fixed!important;
       }
 
       main::after{
@@ -3515,50 +3491,29 @@
         transform:scaleX(-1)!important;
         transform-origin:center center!important;
       }
-      main{
-        background:
-          linear-gradient(rgba(248,250,255,.72),rgba(248,250,255,.72))!important;
+      /* One viewport scene supplies the chat and footer. Keep the light wash
+         on main, and clear only ChatGPT's outer footer and scroll spacers. */
+      html body #main{
+        background:rgba(248,250,255,.28)!important;
+        background-image:none!important;
       }
-
-      /* ChatGPT adds a white fade behind the composer. Clear only its outer
-         container so the full-viewport scene remains visible to the bottom. */
       #thread-bottom-container,
       #thread-bottom,
-      #thread-bottom-container > .pointer-events-none,
-      #thread-bottom-container :is([class*="bg-gradient-to-t"],[class*="bg-linear-to-t"]){
+      #thread [data-thread-scroll-footer],
+      #thread [data-thread-footer-overflow-spacer],
+      #thread [aria-hidden="true"].sticky[class*="thread-scroll-padding-bottom"],
+      #thread-bottom-container > .pointer-events-none{
         background:transparent!important;
         background-image:none!important;
       }
       #thread-bottom-container::before,
       #thread-bottom-container::after,
-      #thread-bottom-container > .pointer-events-none::before,
-      #thread-bottom-container > .pointer-events-none::after{
-        background:none!important;
-        background-image:none!important;
-      }
-
-      /* The conversation scroll-padding spacer sits above the body scene.
-         Paint the matching fixed scene in that spacer rather than the input. */
-      #thread [aria-hidden="true"].sticky[class*="thread-scroll-padding-bottom"]{
-        isolation:isolate!important;
-        background:transparent!important;
-      }
+      #thread [data-thread-scroll-footer]::before,
+      #thread [data-thread-scroll-footer]::after,
       #thread [aria-hidden="true"].sticky[class*="thread-scroll-padding-bottom"]::before,
-      #thread-bottom-container::before{
-        content:""!important;
-        position:absolute!important;
-        inset:0!important;
-        z-index:-1!important;
-        pointer-events:none!important;
-        background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
-        background-size:cover!important;
-        background-position:center center!important;
-        background-repeat:no-repeat!important;
-        background-attachment:fixed!important;
-        transform:scaleX(-1)!important;
-      }
-      #thread-bottom-container{
-        isolation:isolate!important;
+      #thread [aria-hidden="true"].sticky[class*="thread-scroll-padding-bottom"]::after{
+        content:none!important;
+        background:none!important;
       }
 
       html body #${HERO_ID},
