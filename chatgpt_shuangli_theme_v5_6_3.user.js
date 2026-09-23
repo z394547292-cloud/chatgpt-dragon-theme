@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.4
-// @description  网页版霜璃主题 V5.7.4：修复侧栏条目错位与新版回复气泡透明的问题。
+// @version      5.7.5
+// @description  网页版霜璃主题 V5.7.5：保留已修复的侧栏布局，并兼容新版对话容器的回复气泡。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -2968,6 +2968,33 @@
         box-shadow:0 10px 28px rgba(78,74,98,.10),inset 0 0 0 1px rgba(255,255,255,.42)!important;
         backdrop-filter:blur(16px)!important;
         -webkit-backdrop-filter:blur(16px)!important;
+      }
+
+      /* Some conversation layouts no longer nest rendered text under the
+         author-role node. Match the assistant turn itself in that case. */
+      main :is([data-testid^="conversation-turn-"],.agent-turn):not(.user-turn):not(:has([data-message-author-role="user"]))
+        :is(.text-message,.markdown,.prose):not(:has(:is(.text-message,.markdown,.prose))){
+        display:flow-root!important;
+        width:fit-content!important;
+        max-width:min(100%,820px)!important;
+        padding:14px 18px!important;
+        background:rgba(250,252,255,.90)!important;
+        border:1px solid rgba(145,136,174,.22)!important;
+        border-radius:22px!important;
+        box-shadow:0 10px 28px rgba(78,74,98,.12),inset 0 0 0 1px rgba(255,255,255,.45)!important;
+        backdrop-filter:blur(16px)!important;
+        -webkit-backdrop-filter:blur(16px)!important;
+      }
+
+      /* If the message renderer has no identifiable text node, the turn still
+         gets a visible card, including in the legacy author-role layout. */
+      main :is([data-testid^="conversation-turn-"],.agent-turn):not(.user-turn):not(:has([data-message-author-role="user"]))
+        :is(.text-message,[data-message-author-role="assistant"]):not(:has(:is(.markdown,.prose,.text-message))){
+        background:rgba(250,252,255,.90)!important;
+        border:1px solid rgba(145,136,174,.22)!important;
+        border-radius:22px!important;
+        box-shadow:0 10px 28px rgba(78,74,98,.12)!important;
+        padding:14px 18px!important;
       }
 
       [data-message-author-role="user"] > div{
