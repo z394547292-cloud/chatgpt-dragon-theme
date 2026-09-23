@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.5
-// @description  网页版霜璃主题 V5.7.5：保留已修复的侧栏布局，并兼容新版对话容器的回复气泡。
+// @version      5.7.6
+// @description  网页版霜璃主题 V5.7.6：修复回复气泡，并在原生安全设置页面隐藏人物。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -2997,6 +2997,17 @@
         padding:14px 18px!important;
       }
 
+      /* Last-resort card on the assistant turn: newer renderers can omit all
+         three text-wrapper classes, leaving the old selectors unmatched. */
+      main :is([data-testid^="conversation-turn-"]:not(:has(.agent-turn)),.agent-turn):not(.user-turn):not(:has([data-message-author-role="user"])){
+        background:rgba(250,252,255,.86)!important;
+        border:1px solid rgba(145,136,174,.22)!important;
+        border-radius:22px!important;
+        box-shadow:0 10px 28px rgba(78,74,98,.12),inset 0 0 0 1px rgba(255,255,255,.42)!important;
+        backdrop-filter:blur(16px)!important;
+        -webkit-backdrop-filter:blur(16px)!important;
+      }
+
       [data-message-author-role="user"] > div{
         background:transparent!important;
         border:none!important;
@@ -3568,6 +3579,15 @@
         pointer-events:none!important;
       }
 
+      /* Security settings can be a full page, not a modal. */
+      html.sl576-settings-page-open body #${HERO_ID},
+      html.sl576-settings-page-open #${HITBOX_ID},
+      html.sl576-settings-page-open #${SPEECH_ID},
+      html.sl576-settings-page-open #${CELEBRATE_ID}{
+        display:none!important;
+        pointer-events:none!important;
+      }
+
       @media(max-width:1200px){
         html body #${HERO_ID},
         html[data-sl-scene] body #${HERO_ID},
@@ -3672,6 +3692,13 @@
     });
     const open=semanticOpen||hasLargeSystemOverlay();
     document.documentElement.classList.toggle('sl571-system-modal-open',open);
+    const settingsPath=/(?:^|\/)(?:settings|security)(?:\/|$)/i.test(location.pathname) ||
+      /(?:^|[\/#])settings(?:[\/#]|$)/i.test(location.hash);
+    const settingsHeading=[...document.querySelectorAll('h1,h2,h3')].some(el=>{
+      if(!el.getClientRects().length || getComputedStyle(el).visibility==='hidden')return false;
+      return /^(?:How you log in|Passkeys and security keys|登录方式|安全设置|个性化|Personalization)$/i.test((el.textContent||'').trim());
+    });
+    document.documentElement.classList.toggle('sl576-settings-page-open',settingsPath||settingsHeading);
   }
 
   function scheduleSystemModalCheck(){
