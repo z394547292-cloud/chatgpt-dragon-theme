@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.8
-// @description  网页版霜璃主题 V5.7.8：直接为回复段落容器恢复气泡，并统一脚本换行格式。
+// @version      5.7.9
+// @description  网页版霜璃主题 V5.7.9：让场景背景延伸到输入区底部，保留输入框原有外观。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -3518,6 +3518,23 @@
       main{
         background:
           linear-gradient(rgba(248,250,255,.72),rgba(248,250,255,.72))!important;
+      }
+
+      /* ChatGPT adds a white fade behind the composer. Clear only its outer
+         container so the full-viewport scene remains visible to the bottom. */
+      #thread-bottom-container,
+      #thread-bottom,
+      #thread-bottom-container > .pointer-events-none,
+      #thread-bottom-container :is([class*="bg-gradient-to-t"],[class*="bg-linear-to-t"]){
+        background:transparent!important;
+        background-image:none!important;
+      }
+      #thread-bottom-container::before,
+      #thread-bottom-container::after,
+      #thread-bottom-container > .pointer-events-none::before,
+      #thread-bottom-container > .pointer-events-none::after{
+        background:none!important;
+        background-image:none!important;
       }
 
       html body #${HERO_ID},
