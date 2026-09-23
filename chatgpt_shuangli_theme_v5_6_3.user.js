@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.7
-// @description  网页版霜璃主题 V5.7.7：根据实际回复段落结构恢复气泡，保留侧栏及设置页修复。
+// @version      5.7.8
+// @description  网页版霜璃主题 V5.7.8：直接为回复段落容器恢复气泡，并统一脚本换行格式。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -3950,6 +3950,32 @@
     window.addEventListener('resize',positionHeroSpeech,{passive:true});
   }
 
+  function syncReplyBubbles(){
+    // ChatGPT Work renders assistant text as p[data-markdown-dir] without the
+    // older author-role and markdown wrappers. Style its immediate container.
+    document.querySelectorAll('p[data-markdown-dir="auto"]').forEach(p=>{
+      if(p.closest('nav,aside,[role="dialog"],[contenteditable="true"],[data-message-author-role="user"],.user-turn'))return;
+      const host=p.parentElement;
+      if(!host || host.closest('nav,aside,[role="dialog"],[data-message-author-role="user"],.user-turn'))return;
+      if(!host.closest('main,[class*="thread"],[data-testid*="conversation"]'))return;
+      if(host.classList.contains('sl578-reply-bubble'))return;
+      host.classList.add('sl578-reply-bubble');
+      const declarations={
+        display:'flow-root',
+        'box-sizing':'border-box',
+        'max-width':'100%',
+        padding:'14px 18px',
+        background:'rgba(250,252,255,.93)',
+        border:'1px solid rgba(145,136,174,.22)',
+        'border-radius':'22px',
+        'box-shadow':'0 10px 28px rgba(78,74,98,.12), inset 0 0 0 1px rgba(255,255,255,.45)',
+        'backdrop-filter':'blur(16px)',
+        '-webkit-backdrop-filter':'blur(16px)'
+      };
+      Object.entries(declarations).forEach(([name,value])=>host.style.setProperty(name,value,'important'));
+    });
+  }
+
   function markTaskEntry(){
     const candidates=[...document.querySelectorAll('nav a, nav button, aside a, aside button, [data-testid="app-shell-floating-left-panel"] a, [data-testid="app-shell-floating-left-panel"] button')];
     let found=false;
@@ -4344,6 +4370,7 @@
     addReactiveFx();
     addInteractionStyle();
     addPolishStyle();
+    syncReplyBubbles();
     addDetailStyle();
     addLeftStageStyle();
     syncLeftStageLayout();
@@ -4401,6 +4428,7 @@
     addReactiveFx();
     addInteractionStyle();
     addPolishStyle();
+    syncReplyBubbles();
     addDetailStyle();
     addLeftStageStyle();
     syncLeftStageLayout();
@@ -4427,5 +4455,5 @@
     maybeIdleChatter();
   },15000);
 
-  console.log('[霜璃主题] V5.7.3 loaded · stable identity and structural modal auto-hide');
+  console.log('[霜璃主题] V5.7.8 loaded · reply bubble and settings protection');
 })();
