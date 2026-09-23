@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.3
-// @description  网页版霜璃主题 V5.7.3：固定脚本名称避免多版本并行；增强识别系统设置遮罩，弹窗出现时彻底隐藏人物。
+// @version      5.7.4
+// @description  网页版霜璃主题 V5.7.4：修复侧栏条目错位与新版回复气泡透明的问题。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -908,33 +908,7 @@
     display:none!important;
   }
 
-  /* Scale divider under sidebar groups */
-  :is(nav,aside) :is(
-    [data-testid*="section"],
-    [class*="sidebar"] [class*="group"],
-    [class*="sidebar"] [class*="section"]
-  ){
-    position:relative;
-  }
-
-  :is(nav,aside) :is(
-    [data-testid*="section"],
-    [class*="sidebar"] [class*="group"],
-    [class*="sidebar"] [class*="section"]
-  )::after{
-    content:"";
-    display:block;
-    height:1px;
-    margin:7px 12px 4px;
-    background:
-      linear-gradient(90deg,
-        transparent,
-        rgba(151,137,184,.14) 18%,
-        rgba(196,226,245,.28) 50%,
-        rgba(151,137,184,.14) 82%,
-        transparent);
-    pointer-events:none;
-  }
+  /* Sidebar groups must not acquire generated block content: it moves native rows. */
 
   /* Small crystal mark on current sidebar item */
   :is(nav,aside) :is(
@@ -2876,11 +2850,6 @@
           0 6px 18px rgba(75,66,103,.08)!important;
       }
 
-      /* Keep the Projects row clear of the sticky New Chat block */
-      .sl56-project-entry{
-        margin-top:26px!important;
-      }
-
       /* Chat / Work switcher: safe visual fix without changing layout */
       .sl56-mode-tabs,
       .sl56-mode-wrap{
@@ -2974,9 +2943,31 @@
 
       [data-message-author-role="assistant"] > div{
         color:#403b4a!important;
+      }
+
+      /* Newer ChatGPT layouts place the visible reply in .markdown/.prose.
+         Put the frost card on the text itself, not on an outer display:contents row. */
+      [data-message-author-role="assistant"]:has(:is(.markdown,.prose)){
+        width:auto!important;
+        max-width:none!important;
+        padding:0!important;
         background:transparent!important;
-        border:none!important;
+        border:0!important;
         box-shadow:none!important;
+        backdrop-filter:none!important;
+        -webkit-backdrop-filter:none!important;
+      }
+      [data-message-author-role="assistant"] :is(.markdown,.prose):not(:has(:is(.markdown,.prose))){
+        display:flow-root!important;
+        width:fit-content!important;
+        max-width:min(100%,820px)!important;
+        padding:14px 18px!important;
+        background:rgba(250,252,255,.84)!important;
+        border:1px solid rgba(145,136,174,.20)!important;
+        border-radius:22px!important;
+        box-shadow:0 10px 28px rgba(78,74,98,.10),inset 0 0 0 1px rgba(255,255,255,.42)!important;
+        backdrop-filter:blur(16px)!important;
+        -webkit-backdrop-filter:blur(16px)!important;
       }
 
       [data-message-author-role="user"] > div{
@@ -3930,6 +3921,11 @@
     const chat=buttons.find(el=>(el.textContent||'').trim()==='聊天');
     const work=buttons.find(el=>(el.textContent||'').trim()==='工作');
     if(!chat||!work)return;
+
+    // A sidebar project can also contain a “工作” badge. Only decorate a
+    // genuine shared header switcher; never stretch individual sidebar rows.
+    const header=chat.closest('header');
+    if(!header || !header.contains(work) || chat.closest('nav,aside') || work.closest('nav,aside'))return;
 
     chat.classList.add('sl56-mode-tab');
     work.classList.add('sl56-mode-tab');
