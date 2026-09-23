@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         ChatGPT 霜璃 · 冰晶龙娘主题
 // @namespace    https://chatgpt.com/
-// @version      5.7.9
-// @description  网页版霜璃主题 V5.7.9：让场景背景延伸到输入区底部，保留输入框原有外观。
+// @version      5.7.10
+// @description  网页版霜璃主题 V5.7.10：填充滚动区底部留白，背景延伸至输入框后方。
 // @match        https://chatgpt.com/*
 // @match        https://www.chatgpt.com/*
 // @run-at       document-end
@@ -3535,6 +3535,30 @@
       #thread-bottom-container > .pointer-events-none::after{
         background:none!important;
         background-image:none!important;
+      }
+
+      /* The conversation scroll-padding spacer sits above the body scene.
+         Paint the matching fixed scene in that spacer rather than the input. */
+      #thread [aria-hidden="true"].sticky[class*="thread-scroll-padding-bottom"]{
+        isolation:isolate!important;
+        background:transparent!important;
+      }
+      #thread [aria-hidden="true"].sticky[class*="thread-scroll-padding-bottom"]::before,
+      #thread-bottom-container::before{
+        content:""!important;
+        position:absolute!important;
+        inset:0!important;
+        z-index:-1!important;
+        pointer-events:none!important;
+        background-image:url("https://raw.githubusercontent.com/z394547292-cloud/chatgpt-dragon-theme/main/assets/bg-dragon.png")!important;
+        background-size:cover!important;
+        background-position:center center!important;
+        background-repeat:no-repeat!important;
+        background-attachment:fixed!important;
+        transform:scaleX(-1)!important;
+      }
+      #thread-bottom-container{
+        isolation:isolate!important;
       }
 
       html body #${HERO_ID},
